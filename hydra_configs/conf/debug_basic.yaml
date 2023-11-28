@@ -1,0 +1,23 @@
+#@package _global_
+defaults:
+  - base
+
+mephisto:
+  blueprint:
+    # our task related params
+    cads_per_original: 4     # Desired total number of cads per original.
+    sentences_per_ranking: 4 # Lower bound on how many entries a ranking assignment should.
+    rankings_per_original: 2 # Number of rankings of every set of cads relating to the same original.
+    # screening
+    use_screening_task: false
+    max_screening_units: 3 # Global maximum number of screening units that can be launched
+    # init params
+    initial_drop_db: true # flag if Mongo DB should be dropped before every run. Usefull for debugging.
+    initial_populate_from_pickle: true # if Mongo DB should be populated from pickle file or is assumed to already contain inputs
+    initial_populate_count: 1 # number of sentences to consider for initial population. (set to -1 for all sentences)
+    initial_population_preexisting_cads_limit: 2 # limit to how many preexisting cads to add to Mongo DB for every considered sentence (set to -1 for all sentences)
+    # onboarding; defining this param enables onboarding
+    # onboarding_qualification: "passed-onboarding"
+  task:
+    # required for screening
+    allowed_concurrent: 1

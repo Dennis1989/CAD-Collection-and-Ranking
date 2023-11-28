@@ -1,0 +1,11 @@
+build
+cypress
+
+.babelrc
+.cypress.config.js
+package-lock.json
+package.json
+
+tailwind.config.js
+webpack.config.js
+cypress.config.js

@@ -1,0 +1,52 @@
+#@package _global_
+defaults:
+  - /mephisto/blueprint: ranking_task
+  - /mephisto/architect: local
+  - /mephisto/provider: mock
+
+mephisto:
+  blueprint:
+    webapp_dir: ${task_dir}/webapp
+    link_task_source: false # if webapp build artifact should be symlinked. useful for development
+    extra_source_dir: ${task_dir}/webapp/src/static
+    # our task related params
+    cads_per_original: 4     # Desired total number of cads per original.
+    sentences_per_ranking: 4 # Lower bound on how many entries a ranking assignment should.
+    rankings_per_original: 2 # Number of rankings of every set of cads relating to the same original.
+    # screening
+    use_screening_task: false
+    passed_qualification_name: "passed-screening" # name of screening qualification
+    block_qualification: "soft-blocked" # name of qualification used to soft-block workers
+    max_screening_units: 3
+    # init params
+    data_pickle: ${task_dir}/cads_mephisto_batch_1.pickle # pickle file containing input data
+
+    # WARNING: Disable this for deployment!
+    initial_drop_db: false # flag if Mongo DB should be dropped before every run. Useful for debugging.
+
+    initial_populate_from_pickle: false # if Mongo DB should be populated from pickle file or is assumed to already contain inputs
+    initial_populate_count: -1 # number of sentences to consider for initial population. (set to -1 for all sentences)
+    initial_population_preexisting_cads_limit: -1 # limit to how many preexisting cads to add to Mongo DB for every considered sentence (set to -1 for all sentences)
+    # db credentials
+    db_username: "root"
+    db_password: "better_password"
+    db_location: "mongo:27017"
+    auto_pay_bonus: True
+    bonus_ranking: 0.05
+    bonus_cad:     0.05
+  task:
+    # this data is shown on MTurk:
+    task_name: not-one-bit-sexist
+    task_title: "Compete to remove sexism from a sentence and rank variants of a sentence from least to most sexist."
+    task_description: "Compete to remove sexism from a sentence and rank variants of a sentence from least to most sexist."
+    task_reward: 0.20 # reward per hit (i.e. unit in mephisto lingo)
+    task_tags: "sexism, ranking, counterexample"
+    task_lifetime_in_seconds: 2678400 # The time that the task will last for before expiring;  2678400 = 60*60*24*31 = 1 month
+    no_submission_patience: 2678400 # Time that the task will remain alive without a submission;  2678400 = 60*60*24*31 = 1 month
+    assignment_duration_in_seconds: 1800 # Time that workers have to work on your task once accepted.
+    submission_timeout: 60 # Time that mephisto will wait after marking a task done before abandoning waiting for the worker to actually press submit.
+    # We expect to be able to handle 300 concurrent tasks without issue
+    max_num_concurrent_units: 300 # global number of concurrent units
+    # required for screening
+    allowed_concurrent: 10 # number of concurrent units per worker
+    #maximum_units_per_worker: 10

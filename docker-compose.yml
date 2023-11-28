@@ -1,0 +1,31 @@
+version: "3"
+services:
+  mephisto:
+    container_name: mephisto
+    build: .
+    command: /bin/sh -c "while sleep 1000; do :; done" # prevent the devcontainer from closing
+    volumes:
+      - ./aws:/root/.aws
+      - ./data:/data
+      - ./outputs:/app/outputs
+    ports:
+      - "3000:443"
+
+  # database service
+  mongo:
+    image: bitnami/mongodb:6.0
+    environment:
+      # TODO: move this to env file or somewhere outside of git
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: better_password
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_KEY: 123456
+      MONGODB_REPLICA_SET_NAME: replicaset
+      MONGODB_ADVERTISED_HOSTNAME: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - 'mongo:/bitnami'
+
+volumes:
+  mongo:

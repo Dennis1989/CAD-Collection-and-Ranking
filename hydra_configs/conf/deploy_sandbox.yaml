@@ -1,0 +1,23 @@
+#@package _global_
+defaults:
+  - base
+  - override /mephisto/provider: mturk_sandbox
+
+mephisto:
+  blueprint:
+    # our task related params
+    cads_per_original: 4     # Desired total number of cads per original.
+    sentences_per_ranking: 4 # Lower bound on how many entries a ranking assignment should.
+    rankings_per_original: 2 # Number of rankings of every set of cads relating to the same original.
+    # screening
+    use_screening_task: false
+    max_screening_units: 2 # Global maximum number of screening units that can be launched
+    # init params
+    initial_drop_db: true # flag if Mongo DB should be dropped before every run. Usefull for debugging.
+    initial_populate_from_pickle: true
+    initial_populate_count: 20 # number of sentences to consider for initial population. (set to -1 for all sentences)
+    initial_population_preexisting_cads_limit: 2 # limit to how many preexisting cads to add to Mongo DB for every considered sentence (set to -1 for all sentences)
+    onboarding_qualification: "onboarding"
+  architect:
+    hostname: "https://servername.org"
+    port: "443"

@@ -1,0 +1,11 @@
+#@package _global_
+defaults:
+  - debug_basic
+mephisto:
+  blueprint:
+    # name of screening qualification is in base.yaml
+    use_screening_task: true
+    max_screening_units: 3 # Global maximum number of screening units that can be launched
+  task:
+    # required for screening
+    allowed_concurrent: 1
